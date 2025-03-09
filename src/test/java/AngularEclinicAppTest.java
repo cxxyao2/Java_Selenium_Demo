@@ -1,6 +1,9 @@
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,6 +11,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 
 import java.time.Duration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AngularEclinicAppTest {
@@ -41,6 +45,33 @@ public class AngularEclinicAppTest {
         String currentUrl = driver.getCurrentUrl();
         assertTrue(currentUrl.contains("dashboard"));
 
+
+    }
+
+    @Test
+    public void testSearch(){
+        String expectedAlert = "You are visiting knowledge base.";
+
+        driver.manage().window().maximize();
+
+        //  websites
+        driver.get("http://localhost:4200");
+
+        WebElement searchButton = driver.findElement(By.xpath("//div[@class='extended-button-container']//button[@aria-label='search']"));
+        searchButton.click();
+
+        //Wait for elements to load
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        WebElement submitButton = driver.findElement(By.xpath("//div[@class='overlay']//button[@id='search']"));
+        submitButton.click();
+
+
+        // catch alert
+        Alert alert = driver.switchTo().alert();
+        String actualAlert = alert.getText();
+        assertTrue(actualAlert.contains(expectedAlert));
+        alert.accept();
 
     }
 
