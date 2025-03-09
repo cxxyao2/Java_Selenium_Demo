@@ -21,6 +21,29 @@ public class AngularEclinicAppTest {
         driver = new EdgeDriver();
     }
 
+
+    @Test
+    public void testNavigation(){
+        driver.manage().window().maximize();
+
+        //  websites
+        driver.get("http://localhost:4200");
+
+        String pageTitle = driver.getTitle();
+
+        assertTrue(pageTitle.contains("Eclinic"));
+
+        WebElement loginButton = driver.findElement(By.xpath("//div[@class='extended-button-container']//button[@id='login']"));
+        loginButton.click();
+
+        driver.navigate().back();
+
+        String currentUrl = driver.getCurrentUrl();
+        assertTrue(currentUrl.contains("dashboard"));
+
+
+    }
+
     @Test
     public void testLogin() {
         driver.manage().window().maximize();
@@ -29,6 +52,7 @@ public class AngularEclinicAppTest {
         driver.get("http://localhost:4200");
 
         String pageTitle = driver.getTitle();
+
 
         assertTrue(pageTitle.contains("Eclinic"));
 
